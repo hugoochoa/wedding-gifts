@@ -11,10 +11,9 @@
       fixed
       temporary
     >
-      <!--  -->
     </v-navigation-drawer>
 
-    <v-main class="grey lighten-2">
+    <v-main class="grey lighten-1">
       <v-container>
         <v-row>
           <template v-for="n in 4">
@@ -27,12 +26,12 @@
             </v-col>
 
             <v-col
-              v-for="j in 6"
+              v-for="j in 4"
               :key="`${n}${j}`"
-              cols="6"
-              md="2"
+              cols="12"
+              md="3"
             >
-              <v-sheet height="150"></v-sheet>
+              <GiftCard :key=n></GiftCard>
             </v-col>
           </template>
         </v-row>
@@ -42,7 +41,12 @@
 </template>
 
 <script>
-  export default {
-    data: () => ({ drawer: null }),
-  }
+import GiftCard from './components/GiftCard.vue'
+
+export default {
+  data: () => ({ drawer: null }),
+  components: {
+    GiftCard
+  },
+}
 </script>
