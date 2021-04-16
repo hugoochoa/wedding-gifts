@@ -31,12 +31,12 @@
         </v-row>
       </v-container>
 
-      <InvitationDialog :dialog="invitationDialog" @accept=onAccept></InvitationDialog>
+      <InvitationDialog :dialog="invitationDialog" @accept="onAccept"></InvitationDialog>
+
+      <WelcomeDialog :dialog="welcomeDialog" @accept="onWelcomeAccept"></WelcomeDialog>
 
       <ConfirmationDialog :dialog="confirmationDialog"
       @accept=onAccept></ConfirmationDialog>
-
-      <WelcomeDialog :dialog="welcomeDialog" @accept=onAccept></WelcomeDialog>
       
     </v-main>
   </v-app>
@@ -88,6 +88,9 @@ export default {
       this.id = id
       this.invitationDialog = false
       this.welcomeDialog = true
+    },
+    onWelcomeAccept() {
+      this.welcomeDialog = false
     },
     onSelect(gift) {
       this.confirmationDialog = true

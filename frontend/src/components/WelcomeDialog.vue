@@ -21,9 +21,9 @@
           <v-btn
             color="primary"
             text
-            @click="dialog = false"
+            @click="$emit('accept')"
           >
-            Ok
+            Aceptar
           </v-btn>
         </v-card-actions>
       </v-card>
