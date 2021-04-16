@@ -31,6 +31,7 @@
       <v-btn
         color="blue darken-2"
         text
+        @click="$emit('cancel',$event)"
       >
         Cancelar
       </v-btn>

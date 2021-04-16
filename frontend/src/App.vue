@@ -3,20 +3,18 @@
     <v-app-bar app>
       <v-toolbar-title>Luiso & Achu</v-toolbar-title>
       <v-spacer></v-spacer>
-      <span><v-icon left>{{ icons.mdiAccount }}</v-icon>{{id}}</span>
+      <span
+        ><v-icon left>{{ icons.mdiAccount }}</v-icon
+        >{{ id }}</span
+      >
     </v-app-bar>
-    
 
     <v-main class="grey lighten-1">
       <v-container>
         <v-row>
           <template v-for="category in gifts">
-            <v-col
-              :key="category.name"
-              class="mt-2"
-              cols="12"
-            >
-            <strong>{{ category.name }}</strong>
+            <v-col :key="category.name" class="mt-2" cols="12">
+              <strong>{{ category.name }}</strong>
             </v-col>
 
             <v-col
@@ -25,29 +23,43 @@
               cols="12"
               md="3"
             >
-              <GiftCard :gift="gift" @select="onSelect(gift)"></GiftCard>
+              <GiftCard
+                :gift="gift"
+                @select="onSelect(gift)"
+                @cancel="onCancel(gift)"
+              ></GiftCard>
             </v-col>
           </template>
         </v-row>
       </v-container>
 
-      <InvitationDialog :dialog="invitationDialog" @accept="onAccept"></InvitationDialog>
+      <InvitationDialog
+        :dialog="invitationDialog"
+        @accept="onAccept"
+      ></InvitationDialog>
 
-      <WelcomeDialog :dialog="welcomeDialog" @accept="onWelcomeAccept"></WelcomeDialog>
+      <WelcomeDialog
+        :dialog="welcomeDialog"
+        @accept="onWelcomeAccept"
+      ></WelcomeDialog>
 
-      <ConfirmationDialog :dialog="confirmationDialog"
-      @accept=onConfirmationAccept @cancel=onConfirmationCancel></ConfirmationDialog>
-      
+      <ConfirmationDialog
+        :dialog="confirmationDialog"
+        :mode="confirmationDialogMode"
+        :gift="selectedGift"
+        @accept="onConfirmationAccept"
+        @cancel="onConfirmationCancel"
+      ></ConfirmationDialog>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import ConfirmationDialog from './components/ConfirmationDialog.vue'
-import InvitationDialog from './components/InvitationDialog.vue'
-import GiftCard from './components/GiftCard.vue'
-import WelcomeDialog from './components/WelcomeDialog.vue'
-import { mdiAccount } from '@mdi/js' 
+import ConfirmationDialog from "./components/ConfirmationDialog.vue";
+import InvitationDialog from "./components/InvitationDialog.vue";
+import GiftCard from "./components/GiftCard.vue";
+import WelcomeDialog from "./components/WelcomeDialog.vue";
+import { mdiAccount } from "@mdi/js";
 
 export default {
   data: () => ({
@@ -55,55 +67,69 @@ export default {
     invitationDialog: true,
     welcomeDialog: false,
     confirmationDialog: false,
-    selectedGift: null,
+    confirmationDialogMode: "select",
+    selectedGift: {},
     icons: {
-      mdiAccount
+      mdiAccount,
     },
-    gifts: [{
-      name: 'Cocina',
-      items: [{
-        name: 'Microondas',
-        description: 'Esta es la descripcion'
-      },{
-        name: 'Cucharas',
-        description: 'Esta es la descripcion'
-      }]
-    }, {
-      name: 'Baño',
-      items: [
-        {
-          name: 'Toallas',
-          description: 'Esta es la descripcion'
-        }
-      ]
-    }]
+    gifts: [
+      {
+        name: "Cocina",
+        items: [
+          {
+            name: "Microondas",
+            description: "Esta es la descripcion",
+          },
+          {
+            name: "Cucharas",
+            description: "Esta es la descripcion",
+          },
+        ],
+      },
+      {
+        name: "Baño",
+        items: [
+          {
+            name: "Toallas",
+            description: "Esta es la descripcion",
+          },
+        ],
+      },
+    ],
   }),
   components: {
     ConfirmationDialog,
     InvitationDialog,
     GiftCard,
-    WelcomeDialog
+    WelcomeDialog,
   },
   methods: {
     onAccept(id) {
-      this.id = id
-      this.invitationDialog = false
-      this.welcomeDialog = true
+      this.id = id;
+      this.invitationDialog = false;
+      this.welcomeDialog = true;
     },
     onWelcomeAccept() {
-      this.welcomeDialog = false
+      this.welcomeDialog = false;
     },
     onSelect(gift) {
-      this.confirmationDialog = true
-      this.selectedGift = gift
+      this.confirmationDialogMode = "select";
+      this.confirmationDialog = true;
+      this.selectedGift = gift;
     },
-    onConfirmationAccept() {
-      this.confirmationDialog = false
-      console.log('gift', this.selectedGift)
+    onCancel(gift) {
+      this.confirmationDialogMode = "cancel";
+      this.confirmationDialog = true;
+      this.selectedGift = gift;
     },
-    onConfirmationCancel() {
-      this.confirmationDialog = false
+    onConfirmationAccept(gift) {
+      this.confirmationDialog = false;
+      console.log("gift", gift);
     },
-  }
-}
+    onConfirmationCancel(gift) {
+      this.confirmationDialog = false;
+      console.log("gift", gift);
+    },
+  },
+};
 </script>

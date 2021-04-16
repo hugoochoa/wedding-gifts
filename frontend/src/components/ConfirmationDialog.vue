@@ -3,28 +3,35 @@
     <v-dialog
       v-model="dialog"
       persistent
-      max-width="290"
+      width="600"
     >
       <v-card>
-        <v-card-title class="headline">
-          ¿Estás seguro de tu selección?
-        </v-card-title>
-        <v-card-text>En caso de querer cambiar tu elección puedes entrar con tu
-        mismo Número de Invitación, cancelar tu selección y escoger un nuevo
-        regalo</v-card-text>
+        <template v-if="mode === 'select'">
+          <v-card-title class="headline">
+            ¿Estás seguro de regalar {{ gift.name }}?
+          </v-card-title>
+          <v-card-text>En caso de querer cambiar tu elección puedes entrar con tu
+          mismo Número de Invitación, cancelar tu selección y escoger un nuevo
+          regalo</v-card-text>
+        </template>
+        <template v-if="mode === 'cancel'">
+          <v-card-title class="headline">
+            ¿Estás seguro de cancelar el regalo {{ gift.name }}?
+          </v-card-title>
+        </template>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
-            color="green darken-1"
+            color="blue darken-1"
             text
-            @click="$emit('cancel')"
+            @click="$emit('cancel', gift)"
           >
             Cancelar
           </v-btn>
           <v-btn
-            color="green darken-1"
+            color="blue darken-1"
             text
-            @click="$emit('accept')"
+            @click="$emit('accept', gift)"
           >
             Aceptar
           </v-btn>
@@ -40,6 +47,14 @@
     props: {
       dialog: {
         type: Boolean,
+        required: true
+      },
+      mode: {
+        type: String,
+        required: true
+      },
+      gift: {
+        type: Object,
         required: true
       }
     },
