@@ -21,6 +21,7 @@
       <v-btn
         color="blue darken-1"
         text
+        @click="$emit('select',$event)"
       >
         Regalar
       </v-btn>

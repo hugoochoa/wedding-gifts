@@ -25,13 +25,16 @@
               cols="12"
               md="3"
             >
-              <GiftCard :gift="gift"></GiftCard>
+              <GiftCard :gift="gift" @select="onSelect"></GiftCard>
             </v-col>
           </template>
         </v-row>
       </v-container>
 
       <InvitationDialog :dialog="invitationDialog" @accept=onAccept></InvitationDialog>
+
+      <ConfirmationDialog :dialog="confirmationDialog"
+      @accept=onAccept></ConfirmationDialog>
 
       <WelcomeDialog :dialog="welcomeDialog" @accept=onAccept></WelcomeDialog>
       
@@ -40,6 +43,7 @@
 </template>
 
 <script>
+import ConfirmationDialog from './components/ConfirmationDialog.vue'
 import InvitationDialog from './components/InvitationDialog.vue'
 import GiftCard from './components/GiftCard.vue'
 import WelcomeDialog from './components/WelcomeDialog.vue'
@@ -50,6 +54,7 @@ export default {
     id: null,
     invitationDialog: true,
     welcomeDialog: false,
+    confirmationDialog: false,
     icons: {
       mdiAccount
     },
@@ -73,6 +78,7 @@ export default {
     }]
   }),
   components: {
+    ConfirmationDialog,
     InvitationDialog,
     GiftCard,
     WelcomeDialog
@@ -82,6 +88,10 @@ export default {
       this.id = id
       this.invitationDialog = false
       this.welcomeDialog = true
+    },
+    onSelect(gift) {
+      this.confirmationDialog = true
+      console.log(gift)
     }
   }
 }
