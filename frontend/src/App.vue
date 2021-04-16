@@ -1,9 +1,9 @@
 <template>
   <v-app>
     <v-app-bar app>
-      <v-toolbar-title>Luiso & Achu</v-toolbar-title>
+      <v-toolbar-title>L y F Lista de Regalos</v-toolbar-title>
       <v-spacer></v-spacer>
-      <span
+      <span v-if="id"
         ><v-icon left>{{ icons.mdiAccount }}</v-icon
         >{{ id }}</span
       >
