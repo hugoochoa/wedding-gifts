@@ -17,16 +17,16 @@
           <v-btn
             color="green darken-1"
             text
-            @click="dialog = false"
+            @click="$emit('cancel')"
           >
             Cancelar
           </v-btn>
           <v-btn
             color="green darken-1"
             text
-            @click="dialog = false"
+            @click="$emit('accept')"
           >
-            Ok
+            Aceptar
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -37,9 +37,10 @@
 <script>
   export default {
     name: 'ConfirmationDialog',
-    data () {
-      return {
-        dialog: false,
+    props: {
+      dialog: {
+        type: Boolean,
+        required: true
       }
     },
   }

@@ -25,7 +25,7 @@
               cols="12"
               md="3"
             >
-              <GiftCard :gift="gift" @select="onSelect"></GiftCard>
+              <GiftCard :gift="gift" @select="onSelect(gift)"></GiftCard>
             </v-col>
           </template>
         </v-row>
@@ -36,7 +36,7 @@
       <WelcomeDialog :dialog="welcomeDialog" @accept="onWelcomeAccept"></WelcomeDialog>
 
       <ConfirmationDialog :dialog="confirmationDialog"
-      @accept=onAccept></ConfirmationDialog>
+      @accept=onConfirmationAccept @cancel=onConfirmationCancel></ConfirmationDialog>
       
     </v-main>
   </v-app>
@@ -55,6 +55,7 @@ export default {
     invitationDialog: true,
     welcomeDialog: false,
     confirmationDialog: false,
+    selectedGift: null,
     icons: {
       mdiAccount
     },
@@ -94,8 +95,15 @@ export default {
     },
     onSelect(gift) {
       this.confirmationDialog = true
-      console.log(gift)
-    }
+      this.selectedGift = gift
+    },
+    onConfirmationAccept() {
+      this.confirmationDialog = false
+      console.log('gift', this.selectedGift)
+    },
+    onConfirmationCancel() {
+      this.confirmationDialog = false
+    },
   }
 }
 </script>
