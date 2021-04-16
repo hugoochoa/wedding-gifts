@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire">
+  <v-app>
     <v-app-bar app>
       <v-toolbar-title>Luiso & Achu</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -25,8 +25,8 @@
             >
               <GiftCard
                 :gift="gift"
-                @select="onSelect(gift)"
-                @cancel="onCancel(gift)"
+                @select="onGiftSelect(gift)"
+                @cancel="onGiftCancel(gift)"
               ></GiftCard>
             </v-col>
           </template>
@@ -35,7 +35,7 @@
 
       <InvitationDialog
         :dialog="invitationDialog"
-        @accept="onAccept"
+        @accept="onInvitationAccept"
       ></InvitationDialog>
 
       <WelcomeDialog
@@ -104,7 +104,7 @@ export default {
     WelcomeDialog,
   },
   methods: {
-    onAccept(id) {
+    onInvitationAccept(id) {
       this.id = id;
       this.invitationDialog = false;
       this.welcomeDialog = true;
@@ -112,12 +112,12 @@ export default {
     onWelcomeAccept() {
       this.welcomeDialog = false;
     },
-    onSelect(gift) {
+    onGiftSelect(gift) {
       this.confirmationDialogMode = "select";
       this.confirmationDialog = true;
       this.selectedGift = gift;
     },
-    onCancel(gift) {
+    onGiftCancel(gift) {
       this.confirmationDialogMode = "cancel";
       this.confirmationDialog = true;
       this.selectedGift = gift;
