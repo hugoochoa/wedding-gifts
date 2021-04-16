@@ -5,8 +5,8 @@
   >
 
   <v-img
-      height="250"
-      src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+      height="100"
+      :src="gift.image_url"
     ></v-img>
 
     <v-card-title>
@@ -22,6 +22,7 @@
         color="blue darken-1"
         text
         @click="$emit('select',$event)"
+        :disabled="!!gift.reserved_by"
       >
         Regalar
       </v-btn>
@@ -29,6 +30,7 @@
       <v-spacer></v-spacer>
 
       <v-btn
+        v-if="gift.reserved_by === id"
         color="blue darken-2"
         text
         @click="$emit('cancel',$event)"
@@ -47,6 +49,10 @@
       show: false,
     }),
     props: {
+      id: {
+        type: String,
+        required: true
+      },
       gift: {
         type: Object,
         required: true

@@ -12,19 +12,20 @@
     <v-main class="grey lighten-1">
       <v-container>
         <v-row>
-          <template v-for="category in gifts">
-            <v-col :key="category.name" class="mt-2" cols="12">
-              <strong>{{ category.name }}</strong>
+          <template v-for="category in categories">
+            <v-col :key="category" class="mt-2" cols="12">
+              <strong>{{ category }}</strong>
             </v-col>
 
             <v-col
-              v-for="gift in category.items"
+              v-for="gift in getCategoryGifts(category)"
               :key="gift.name"
               cols="12"
               md="3"
             >
               <GiftCard
                 :gift="gift"
+                :id="id"
                 @select="onGiftSelect(gift)"
                 @cancel="onGiftCancel(gift)"
               ></GiftCard>
@@ -63,7 +64,7 @@ import { mdiAccount } from "@mdi/js";
 
 export default {
   data: () => ({
-    id: null,
+    id: '',
     invitationDialog: true,
     welcomeDialog: false,
     confirmationDialog: false,
@@ -74,29 +75,48 @@ export default {
     },
     gifts: [
       {
-        name: "Cocina",
-        items: [
-          {
-            name: "Microondas",
-            description: "Esta es la descripcion",
-          },
-          {
-            name: "Cucharas",
-            description: "Esta es la descripcion",
-          },
-        ],
+        name: "Microondas",
+        image_url:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS61MxHeHOOvtcH0MVHRwjWSjaQYy0zmdMwi52kcswrRbmx_8_kdNP6MA9nrf9ajKfnrsYpoKRQ&usqp=CAc',
+        description: "Esta es la descripcion",
+        category: 'Cocina',
+        reserved_by: null 
       },
       {
-        name: "Baño",
-        items: [
-          {
-            name: "Toallas",
-            description: "Esta es la descripcion",
-          },
-        ],
+        name: "Cucharas",
+        image_url:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpNpVuHz4YwrudcqI3cqbQQXGkMWCf2v2z8geucU02BqrqdXCEPC4lmcjmOkfzLLVRauB1JS1P&usqp=CAc',
+        description: "Esta es la descripcion",
+        category: 'Cocina',
+        reserved_by: null 
       },
-    ],
+      {
+        name: "Toallas",
+        image_url:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6co2AHWErLiC_Q2YVcd78QovIw76UJ-0AgA&usqp=CAU',
+        description: "Esta es la descripcion",
+        category: 'Baño',
+        reserved_by: '123' 
+      },
+      {
+        name: "Tele",
+        description: "Esta es la descripcion",
+        image_url:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGUPzmif8U-52JHZoS49OhmZZb786FW3LSLNLM91HSTkhl8Xa-pIZ_5a02rXQrrTQKeyTofVcL&usqp=CAc',
+        category: 'Entretenimiento',
+        reserved_by: null 
+      }
+    ]
   }),
+  computed: {
+    categories() {
+      const categories = this.gifts.reduce((categories,gift) => {
+        categories[gift.category] = true
+        return categories
+      }, {})
+      return Object.keys(categories)
+    },
+  },
   components: {
     ConfirmationDialog,
     InvitationDialog,
@@ -104,6 +124,9 @@ export default {
     WelcomeDialog,
   },
   methods: {
+    getCategoryGifts(category) {
+      return this.gifts.filter(gift => gift.category === category)
+    },
     onInvitationAccept(id) {
       this.id = id;
       this.invitationDialog = false;
