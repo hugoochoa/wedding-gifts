@@ -2,7 +2,10 @@
   <v-app id="inspire">
     <v-app-bar app>
       <v-toolbar-title>Luiso & Achu</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <span><v-icon left>{{ icons.mdiAccount }}</v-icon>{{id}}</span>
     </v-app-bar>
+    
 
     <v-main class="grey lighten-1">
       <v-container>
@@ -28,7 +31,10 @@
         </v-row>
       </v-container>
 
-      <InvitationDialog :dialog="dialog"></InvitationDialog>
+      <InvitationDialog :dialog="invitationDialog" @accept=onAccept></InvitationDialog>
+
+      <WelcomeDialog :dialog="welcomeDialog" @accept=onAccept></WelcomeDialog>
+      
     </v-main>
   </v-app>
 </template>
@@ -36,10 +42,17 @@
 <script>
 import InvitationDialog from './components/InvitationDialog.vue'
 import GiftCard from './components/GiftCard.vue'
+import WelcomeDialog from './components/WelcomeDialog.vue'
+import { mdiAccount } from '@mdi/js' 
 
 export default {
   data: () => ({
-    dialog: true,
+    id: null,
+    invitationDialog: true,
+    welcomeDialog: false,
+    icons: {
+      mdiAccount
+    },
     gifts: [{
       name: 'Cocina',
       items: [{
@@ -61,7 +74,15 @@ export default {
   }),
   components: {
     InvitationDialog,
-    GiftCard
+    GiftCard,
+    WelcomeDialog
   },
+  methods: {
+    onAccept(id) {
+      this.id = id
+      this.invitationDialog = false
+      this.welcomeDialog = true
+    }
+  }
 }
 </script>

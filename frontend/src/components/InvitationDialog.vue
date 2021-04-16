@@ -11,14 +11,18 @@
         </v-card-title>
         <v-card-text>
           <v-container>
-            <v-row>
-              <v-col cols="12">
-                <v-text-field
-                  label="Número de Invitación"
-                  required
-                ></v-text-field>
-              </v-col>
-            </v-row>
+            <v-form v-model="valid">
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field
+                    v-model="id"
+                    :rules="idRules"
+                    label="Número de Invitación"
+                    required
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-form>
           </v-container>
           <small>El Número de Invitación se encuentra escrito en la tarjeta de
             invitación física</small>
@@ -26,16 +30,10 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
+            :disabled="!valid"
             color="blue darken-1"
             text
-            @click="dialog = false"
-          >
-            Cancelar
-          </v-btn>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="dialog = false"
+            @click="onAccept"
           >
             Aceptar
           </v-btn>
@@ -49,10 +47,25 @@
 
 export default {
   name: "InvitationDialog",
+  data() {
+    return {
+      valid: false,
+      id: '',
+      idRules: [
+        v => !!v || 'El Número de Invitación es requerido',
+        v => v.length === 3 || 'El Número de Invitación es de 10 caracteres',
+      ]
+    }
+  },
   props: {
     dialog: {
       type: Boolean,
       required: true
+    }
+  },
+  methods: {
+    onAccept() {
+      this.$emit('accept',this.id)
     }
   }
 }
