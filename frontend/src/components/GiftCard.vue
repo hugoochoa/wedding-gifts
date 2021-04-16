@@ -3,22 +3,23 @@
     class="mx-auto"
     max-width="300"
   >
-    <v-img
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQh7MhPWxCjZY4MjUvRxU5EQDeBmz2zfu0gXwzzs5ooyh8OAMCY5loRD8bsqe71WK9IwoAfL4U6&usqp=CAc"
-      height="200px"
+
+  <v-img
+      height="250"
+      src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
     ></v-img>
 
     <v-card-title>
-      Horno de Microondas Winia
+      {{ gift.name }}
     </v-card-title>
 
     <v-card-subtitle>
-      1.1 Pies Cúbicos Acero Inoxidable
+      {{ gift.description }}
     </v-card-subtitle>
 
     <v-card-actions>
       <v-btn
-        color="orange lighten-2"
+        color="blue darken-1"
         text
       >
         Regalar
@@ -27,22 +28,13 @@
       <v-spacer></v-spacer>
 
       <v-btn
-        icon
-        @click="show = !show"
+        color="blue darken-2"
+        text
       >
-        <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+        Cancelar
       </v-btn>
     </v-card-actions>
 
-    <v-expand-transition>
-      <div v-show="show">
-        <v-divider></v-divider>
-
-        <v-card-text>
-          Lo necesito para hacerme unas palomitas y ver a la maquina
-        </v-card-text>
-      </div>
-    </v-expand-transition>
   </v-card>
 </template>
 
@@ -52,5 +44,11 @@
     data: () => ({
       show: false,
     }),
+    props: {
+      gift: {
+        type: Object,
+        required: true
+      }
+    }
   }
 </script>
