@@ -1,9 +1,6 @@
 <template>
   <div class="text-center">
-    <v-dialog
-      v-model="dialog"
-      width="500"
-    >
+    <v-dialog v-model="dialog" width="500">
       <v-card>
         <v-card-title class="headline">
           Mesa de Regalos de Luiso & Achu
@@ -18,11 +15,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            text
-            @click="$emit('accept')"
-          >
+          <v-btn color="primary" text @click="$emit('accept')">
             Aceptar
           </v-btn>
         </v-card-actions>
@@ -32,13 +25,13 @@
 </template>
 
 <script>
-  export default {
-    name: 'WelcomeDialog',
-    props: {
-      dialog: {
-        type: Boolean,
-        required: true
-      }
+export default {
+  name: "WelcomeDialog",
+  props: {
+    dialog: {
+      type: Boolean,
+      required: true,
     },
-  }
+  },
+};
 </script>

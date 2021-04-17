@@ -21,7 +21,7 @@
               v-for="gift in getCategoryGifts(category)"
               :key="gift.name"
               cols="12"
-              md="4"
+              md="3"
             >
               <GiftCard
                 :gift="gift"
@@ -51,23 +51,6 @@
         @accept="onConfirmationAccept"
         @cancel="onConfirmationCancel"
       ></ConfirmationDialog>
-
-      <v-snackbar
-        v-model="snackbar"
-      >
-        Cambio guardado con éxito
-        <template v-slot:action="{ attrs }">
-          <v-btn
-            color="pink"
-            text
-            v-bind="attrs"
-            @click="snackbar = false"
-          >
-            Close
-          </v-btn>
-        </template>
-      </v-snackbar>
-
     </v-main>
   </v-app>
 </template>
@@ -78,16 +61,18 @@ import InvitationDialog from "./components/InvitationDialog.vue";
 import GiftCard from "./components/GiftCard.vue";
 import WelcomeDialog from "./components/WelcomeDialog.vue";
 import { mdiAccount } from "@mdi/js";
-import axios from "axios";
-
-const API_BASE_URL = "http://3.143.179.41:3000";
+import axios from 'axios'
 
 export default {
-  mounted() {
-    this.fetch()
+  mounted () {
+    axios
+      .get('http://3.143.179.41:3000/gifts')
+      .then(response => {
+        this.gifts = response.data
+      })
   },
   data: () => ({
-    id: "",
+    id: '',
     invitationDialog: true,
     welcomeDialog: false,
     confirmationDialog: false,
@@ -96,16 +81,48 @@ export default {
     icons: {
       mdiAccount,
     },
-    gifts: [],
-    snackbar: false
+    gifts: [
+      {
+        name: "Microondas",
+        image_url:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS61MxHeHOOvtcH0MVHRwjWSjaQYy0zmdMwi52kcswrRbmx_8_kdNP6MA9nrf9ajKfnrsYpoKRQ&usqp=CAc',
+        description: "Esta es la descripcion",
+        category: 'Cocina',
+        reserved_by: null 
+      },
+      {
+        name: "Cucharas",
+        image_url:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpNpVuHz4YwrudcqI3cqbQQXGkMWCf2v2z8geucU02BqrqdXCEPC4lmcjmOkfzLLVRauB1JS1P&usqp=CAc',
+        description: "Esta es la descripcion",
+        category: 'Cocina',
+        reserved_by: null 
+      },
+      {
+        name: "Toallas",
+        image_url:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6co2AHWErLiC_Q2YVcd78QovIw76UJ-0AgA&usqp=CAU',
+        description: "Esta es la descripcion",
+        category: 'Baño',
+        reserved_by: '123' 
+      },
+      {
+        name: "Tele",
+        description: "Esta es la descripcion",
+        image_url:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGUPzmif8U-52JHZoS49OhmZZb786FW3LSLNLM91HSTkhl8Xa-pIZ_5a02rXQrrTQKeyTofVcL&usqp=CAc',
+        category: 'Entretenimiento',
+        reserved_by: null 
+      }
+    ]
   }),
   computed: {
     categories() {
-      const categories = this.gifts.reduce((categories, gift) => {
-        categories[gift.category] = true;
-        return categories;
-      }, {});
-      return Object.keys(categories);
+      const categories = this.gifts.reduce((categories,gift) => {
+        categories[gift.category] = true
+        return categories
+      }, {})
+      return Object.keys(categories)
     },
   },
   components: {
@@ -115,13 +132,8 @@ export default {
     WelcomeDialog,
   },
   methods: {
-    fetch() {
-      axios.get(`${API_BASE_URL}/gifts`).then((response) => {
-        this.gifts = response.data;
-      });
-    },
     getCategoryGifts(category) {
-      return this.gifts.filter((gift) => gift.category === category);
+      return this.gifts.filter(gift => gift.category === category)
     },
     onInvitationAccept(id) {
       this.id = id;
@@ -143,20 +155,11 @@ export default {
     },
     onConfirmationAccept(gift) {
       this.confirmationDialog = false;
-      const params = { reserved_by: this.confirmationDialogMode === 'select' ? this.id : '' }
-      
-      axios
-        .patch(`${API_BASE_URL}/gifts/${gift._id}`, params)
-        .then(() => {
-          this.fetch()
-          this.snackbar = true
-          setTimeout(() => {
-            this.snackbar = false
-          }, 5000)
-        });
+      console.log("gift", gift);
     },
-    onConfirmationCancel() {
+    onConfirmationCancel(gift) {
       this.confirmationDialog = false;
+      console.log("gift", gift);
     },
   },
 };
