@@ -1,6 +1,11 @@
 <template>
   <v-card class="mx-auto" max-width="300">
-    <v-img v-if="gift.image_url" height="100" :src="gift.image_url"></v-img>
+    <v-img
+      v-if="gift.image_url"
+      max-height="200"
+      contain
+      :src="gift.image_url"
+    ></v-img>
 
     <v-card-title>
       {{ gift.name }}

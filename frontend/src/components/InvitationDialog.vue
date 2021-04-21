@@ -1,10 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-dialog
-      v-model="dialog"
-      persistent
-      max-width="600px"
-    >
+    <v-dialog v-model="dialog" persistent max-width="600px">
       <v-card>
         <v-card-title>
           <span class="headline">Introduce el Número de Invitación</span>
@@ -24,8 +20,10 @@
               </v-row>
             </v-form>
           </v-container>
-          <small>El Número de Invitación se encuentra escrito en la tarjeta de
-            invitación física</small>
+          <small
+            >El Número de Invitación se encuentra escrito en la tarjeta de
+            invitación física</small
+          >
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -44,29 +42,43 @@
 </template>
 
 <script>
-
 export default {
   name: "InvitationDialog",
   data() {
+    const INVITATION_NUMBER_LIMIT = 100;
+
+    function validateInvitationNumber(value) {
+      const parsedValue = parseInt(value);
+      if (
+        isNaN(parsedValue) ||
+        parsedValue <= 0 ||
+        parsedValue > INVITATION_NUMBER_LIMIT
+      ) {
+        return false;
+      }
+      return true;
+    }
+
     return {
       valid: false,
-      id: '',
+      id: "",
       idRules: [
-        v => !!v || 'El Número de Invitación es requerido',
-        v => v.length === 3 || 'El Número de Invitación es de 10 caracteres',
-      ]
-    }
+        (v) => !!v || "El Número de Invitación es requerido",
+        (v) =>
+          validateInvitationNumber(v) || "El Número de Invitación es inválido",
+      ],
+    };
   },
   props: {
     dialog: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     onAccept() {
-      this.$emit('accept',this.id)
-    }
-  }
-}
+      this.$emit("accept", this.id);
+    },
+  },
+};
 </script>

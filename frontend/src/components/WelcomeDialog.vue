@@ -3,12 +3,16 @@
     <v-dialog v-model="dialog" width="500">
       <v-card>
         <v-card-title class="headline">
-          Mesa de Regalos de Luiso & Achu
+          Mesa de Regalos de Fer & Luiso
         </v-card-title>
 
         <v-card-text>
-          Gracias por tu ayuda, puedes seleccionar cualquier regalo de la lista
-          :)
+          <p>Gracias por tu ayuda :)</p>
+          <p>
+            Puedes seleccionar cualquier regalo de la lista. Si eventualmente
+            requieres cambiar tu selección puedes ingresar nuevamente a este
+            sitio y actualizarla.
+          </p>
         </v-card-text>
 
         <v-divider></v-divider>

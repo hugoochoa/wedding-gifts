@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app>
-      <v-toolbar-title>L y F Lista de Regalos</v-toolbar-title>
+      <v-toolbar-title>Lista de Regalos de Fer y Luiso</v-toolbar-title>
       <v-spacer></v-spacer>
       <span v-if="id"
         ><v-icon left>{{ icons.mdiAccount }}</v-icon
